@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Snipplets.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +9,8 @@ namespace Snipplets.Controllers
 {
     public class HTMLHelpersController : Controller
     {
+        public static HTMLHelpers OneItem = new HTMLHelpers();
+
         // GET: HTMLHelpers
         public ActionResult Index()
         {
@@ -28,13 +31,25 @@ namespace Snipplets.Controllers
 
         // POST: HTMLHelpers/Create
         [HttpPost]
-        public ActionResult Test(FormCollection collection)
+        public ActionResult Test(HTMLHelpers data)
         {
             try
             {
                 // TODO: Add insert logic here
 
-                return RedirectToAction("Index");
+                // Assign the given data to our storage
+                OneItem = data;
+
+                // ViewBag won't work: We call the View TestOutput ... so ViewBag looses its lifetime ...
+                ViewBag.lstMembers = data.ListBox.ToList();
+                TempData["lstMembers2"] = data.ListBox.ToList();
+
+                
+                List<string> olio = new List<string>();
+                olio = data.ListBox.ToList();
+                TempData["lstMembers2"] = olio; 
+
+                return RedirectToAction("TestOutput");
             }
             catch
             {
@@ -42,7 +57,10 @@ namespace Snipplets.Controllers
             }
         }
 
-
+        public ActionResult TestOutput()
+        {
+            return View(OneItem);
+        }
 
         // GET: HTMLHelpers/Create
         public ActionResult Create()

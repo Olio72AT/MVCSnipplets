@@ -168,6 +168,8 @@
     <Content Include="Views\General\Index.cshtml" />
     <Content Include="Views\HTMLHelpers\Index.cshtml" />
     <Content Include="Views\HTMLHelpers\Test.cshtml" />
+    <Content Include="Views\HTMLHelpers\Details.cshtml" />
+    <Content Include="Views\HTMLHelpers\TestOutput.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
