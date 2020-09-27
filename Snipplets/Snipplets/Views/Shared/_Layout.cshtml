@@ -22,7 +22,28 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("HTML Helpers", "Index", "HTMLHelpers")</li>
-                    <li>@Html.ActionLink("Informationen", "About", "Home")</li>
+
+                    <li class="nav-item dropdown">
+                        
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Files & Graphics <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    @Html.ActionLink("Store DB Locally", "Index", "Home", new { area = "" }, new { @class = "dropdown-item" })
+                            </li>
+                            <li>
+                                @Html.ActionLink("Files Upload", "Index", "Home", new { area = "" }, new { @class = "dropdown-item" })
+                            </li>
+                            <li role="separator" class="divider"></li>
+
+                            <li>
+                                @Html.ActionLink("Graphics", "Index", "Home", new { area = "" }, new { @class = "dropdown-item" })
+                            </li>
+                            </ul>
+                        </li>
+                    </li>
+
+                    
                     <li>@Html.ActionLink("?", "Index", "General")</li>
                 </ul>
             </div>
