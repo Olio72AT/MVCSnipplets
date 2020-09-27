@@ -79,15 +79,9 @@
         </dt>
 
         <dd>
-            @{ 
-                
-                var items = TempData["lstMembers2"];
 
-            }
-            
-            @Html.ListBoxFor(model => model.ListBox, new SelectList( TempData["lstMembers2"] ), new { @class = "form-control" })
-            
-
+            @Html.ListBoxFor(model => model.ListBox, new SelectList(Snipplets.Controllers.HTMLHelpersController.LBTransfer, new { @class = "form-control" }))
+    
         </dd>
 
         <dt>
@@ -105,3 +99,5 @@
     @Html.ActionLink("Back to Overview", "Index") |
     @Html.ActionLink("Back to Edit", "Test")
 </p>
+
+

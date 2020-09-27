@@ -10,6 +10,7 @@ namespace Snipplets.Controllers
     public class HTMLHelpersController : Controller
     {
         public static HTMLHelpers OneItem = new HTMLHelpers();
+        public static List<string> LBTransfer = new List<string>();
 
         // GET: HTMLHelpers
         public ActionResult Index()
@@ -40,14 +41,18 @@ namespace Snipplets.Controllers
                 // Assign the given data to our storage
                 OneItem = data;
 
-                // ViewBag won't work: We call the View TestOutput ... so ViewBag looses its lifetime ...
-                ViewBag.lstMembers = data.ListBox.ToList();
-                TempData["lstMembers2"] = data.ListBox.ToList();
+                if (LBTransfer.Count() > 0)
+                {
+                    LBTransfer.Clear();
 
-                
-                List<string> olio = new List<string>();
-                olio = data.ListBox.ToList();
-                TempData["lstMembers2"] = olio; 
+                }
+                if (data.ListBox != null)
+                    // Listbox Preparation
+                    foreach (string x in data.ListBox)
+                    {
+                        LBTransfer.Add(x);
+
+                    }
 
                 return RedirectToAction("TestOutput");
             }

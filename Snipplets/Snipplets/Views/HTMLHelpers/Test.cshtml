@@ -67,7 +67,7 @@
 
             @* ,new { htmlAttributes = new { @class = "form-control" } }) *@
 
-            @Html.ValidationMessageFor(model => model.Hidden, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(model => model.DropDown1, "", new { @class = "text-danger" })
         </div>
     </div>
 
@@ -78,7 +78,7 @@
 
             @* ,new { htmlAttributes = new { @class = "form-control" } }) *@
 
-            @Html.ValidationMessageFor(model => model.Hidden, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(model => model.DropDown2, "", new { @class = "text-danger" })
         </div>
     </div>
 
@@ -88,7 +88,7 @@
             @Html.ListBoxFor(model => model.ListBox, new SelectList(new List<string>() { "List Item 1", "List Item 2", "List Item 3" }), new { @class = "form-control" })
 
     
-    @Html.ValidationMessageFor(model => model.Hidden, "", new { @class = "text-danger" })
+    @Html.ValidationMessageFor(model => model.ListBox, "", new { @class = "text-danger" })
 </div>
     </div>
 
