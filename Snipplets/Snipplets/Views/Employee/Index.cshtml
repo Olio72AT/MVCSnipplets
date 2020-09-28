@@ -47,12 +47,15 @@
         @Html.DisplayFor(modelItem => item.Sex)
     </td>
     <td>
+
+        
         @Html.DisplayFor(modelItem => item.FileNamePicture)
     </td>
     <td>
         @Html.DisplayFor(modelItem => item.Active)
     </td>
     <td>
+        @Html.ActionLink("Upload Picture", "Upload", new { id = item.Id }) |
         @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
         @Html.ActionLink("Details", "Details", new { id = item.Id }) |
         @Html.ActionLink("Delete", "Delete", new { id = item.Id })

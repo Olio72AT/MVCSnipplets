@@ -1,6 +1,8 @@
 ﻿using Snipplets.Models;
+using Snipplets.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -10,6 +12,7 @@ namespace Snipplets.Controllers
     public class EmployeeController : Controller
     {
         public static List<Employee> EmployeeListe = new List<Employee>();
+        private Exception innerException;
 
 
         // GET: Employee
@@ -25,18 +28,100 @@ namespace Snipplets.Controllers
         }
 
         // GET: Employee/Create
+        public ActionResult Upload(int id)
+        {
+            TempData["idupload"] = id;
+            
+            return View();
+        }
+
+
+
+
+        // POST: Employee/Create
+        [HttpPost]
+        public ActionResult UploadFile(UploadViewModel uploadViewModel)
+        {
+            try
+            {
+
+                // const string pathtostore = @"d:\VisualStudio2019\Uploads";
+                ViewBag.FileError = "";
+                ViewBag.Exception = "None";
+
+                if (uploadViewModel.file.ContentLength > 0 )
+                {
+                    string _Filename = Path.GetFileName(uploadViewModel.file.FileName);
+
+                    //Check if filetype JPEG is given: 
+
+                    if (uploadViewModel.file.ContentType != "image/jpeg" )
+                    {
+                        ViewBag.FileError = "Only JPG / JPEG files are allowed";
+
+                        return View();
+                    }
+                       
+
+
+                    // if (Directory.Exists(pathtostore))
+                    // {
+                        // 1. VARIANT:  Choose and allowed path: 
+                        // string _Path = Path.Combine(Server.MapPath(pathtostore), _Filename);
+
+                        // 2. VARIANT: To save the file within the Projekt:
+                        string _Path = Path.Combine(Server.MapPath("~/UploadedFiles"), _Filename);
+                        uploadViewModel.file.SaveAs(_Path);
+                        
+                        var elemToEdit = Snipplets.Controllers.EmployeeController.EmployeeListe.Where
+                            (x => x.Id == (int)TempData["idupload"]).FirstOrDefault();
+
+                        elemToEdit.FileNamePicture = _Path;
+
+                    // }
+
+                    // else
+                    
+                     //    throw new Exception("PathError");
+
+
+                }
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                ViewBag.Exception = e.Message;
+                
+                return View();
+            }
+        }
+
+
+
+        // GET: Employee/Create
         public ActionResult Create()
         {
             return View();
         }
 
+
+
+       
         // POST: Employee/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Employee employee)
         {
             try
             {
                 // TODO: Add insert logic here
+                employee.Id = EmployeeListe.Count() + 1;
+                employee.Active = true;
+
+
+
+                EmployeeListe.Add(employee);
+
 
                 return RedirectToAction("Index");
             }
