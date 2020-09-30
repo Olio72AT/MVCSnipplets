@@ -12,7 +12,7 @@ namespace Snipplets.Controllers
     public class EmployeeController : Controller
     {
         public static List<Employee> EmployeeListe = new List<Employee>();
-        private Exception innerException;
+        
 
 
         // GET: Employee
@@ -24,9 +24,34 @@ namespace Snipplets.Controllers
         // GET: Employee/Details/5
         public ActionResult Details(int id)
         {
+            var ElemToDisplay = EmployeeListe.Where(x => x.Id == id).FirstOrDefault();
+            return View(ElemToDisplay);
+        }
+
+        // GET: Employee/PartialDetails
+        public ActionResult PartialDetails()
+        {
+            TempData["Anzahl"] = EmployeeListe.Count();
+            return View(EmployeeListe);
+        }
+
+        // GET: Employee/PartialDetails
+        public ActionResult SummaryDetails()
+        {
+            // Be careful: RenderPartial just calls the View ... not the action ... 
+            
+            
             return View();
         }
 
+        // GET: Employee/PartialDetails
+        public ActionResult EmployeeData(int id)
+        {
+            // Be careful: RenderPartial just calls the View ... not the action ... 
+
+            var ElemToViewPartial = EmployeeListe.Where(z => z.Id == id).FirstOrDefault();
+            return View(ElemToViewPartial);
+        }
         // GET: Employee/Create
         public ActionResult Upload(int id)
         {
@@ -76,7 +101,7 @@ namespace Snipplets.Controllers
                         var elemToEdit = Snipplets.Controllers.EmployeeController.EmployeeListe.Where
                             (x => x.Id == (int)TempData["idupload"]).FirstOrDefault();
 
-                        elemToEdit.FileNamePicture = _Path;
+                        elemToEdit.FileNamePicture = _Filename;
 
                     // }
 

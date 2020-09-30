@@ -124,6 +124,7 @@
     <Compile Include="Controllers\GeneralController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HTMLHelpersController.cs" />
+    <Compile Include="Controllers\PersistenzController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -177,9 +178,15 @@
     <Content Include="Views\Employee\Create.cshtml" />
     <Content Include="Views\Employee\Upload.cshtml" />
     <Content Include="Views\Employee\UploadFile.cshtml" />
+    <Content Include="Views\Employee\Details.cshtml" />
+    <Content Include="Views\Employee\PartialDetails.cshtml" />
+    <Content Include="Views\Employee\EmployeeData.cshtml" />
+    <Content Include="Views\Employee\SummaryDetails.cshtml" />
+    <Content Include="Views\Persistenz\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Graphics\" />
     <Folder Include="UploadedFiles\" />
   </ItemGroup>
   <ItemGroup>
