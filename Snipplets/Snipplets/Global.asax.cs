@@ -21,6 +21,8 @@ namespace Snipplets
 
             // CleanUp UploadedFiles folder ... 
 
+            /*
+    
             string _Path = Server.MapPath("~/UploadedFiles");
 
 
@@ -30,6 +32,8 @@ namespace Snipplets
             {
                 fi.Delete();
             }
+
+            */
 
             // Add one Element 
             Snipplets.Controllers.EmployeeController.EmployeeListe.Add(
