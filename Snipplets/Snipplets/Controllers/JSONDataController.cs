@@ -104,6 +104,8 @@ namespace Snipplets.Controllers
                 }
                 else
                 {
+
+                    fs.Close();
                     // Version not implemented yet
                     return false; 
 
