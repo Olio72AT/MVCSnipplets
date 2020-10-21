@@ -124,12 +124,14 @@
     <Compile Include="Controllers\GeneralController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HTMLHelpersController.cs" />
+    <Compile Include="Controllers\JSONDataController.cs" />
     <Compile Include="Controllers\PersistenzController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\HTMLHelpers.cs" />
+    <Compile Include="Models\JSONData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\UploadViewModel.cs" />
   </ItemGroup>
@@ -183,6 +185,8 @@
     <Content Include="Views\Employee\EmployeeData.cshtml" />
     <Content Include="Views\Employee\SummaryDetails.cshtml" />
     <Content Include="Views\Persistenz\Index.cshtml" />
+    <Content Include="Views\JSONData\Index.cshtml" />
+    <Content Include="Views\JSONData\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
