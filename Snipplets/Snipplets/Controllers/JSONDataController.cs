@@ -14,6 +14,7 @@ namespace Snipplets.Controllers
     {
         public static List<Data> dataListe = new List<Data>();
         public static int Version = 1;
+        public static string pfadJSON = @"d:\JSONData.bin";
 
         // GET: JSONData
         public ActionResult Index()
@@ -21,7 +22,11 @@ namespace Snipplets.Controllers
             // Get data from JSON source  ... 
             HandleJSONPersistence(null);
 
-            return View(dataListe);
+            var active_List = new List<Data>();
+
+            active_List = dataListe.Where(x => x.Active == true).ToList();
+
+            return View(active_List);
         }
 
         // GET: JSONData/Details/5
@@ -57,68 +62,79 @@ namespace Snipplets.Controllers
 
         public bool HandleJSONPersistence (Data data)
         {
-            string pfadJSON = @"d:\JSONData.bin";
-
+            
             
             // JSON File exists? 
             if (System.IO.File.Exists(pfadJSON))
             {
-                FileStream fs = new FileStream(pfadJSON, FileMode.Open);
-
-                BinaryFormatter formatter = new BinaryFormatter();
-
-                var OurPersistedJSON = (string) formatter.Deserialize(fs);
-
-                // Now convert the JSONToWrite to JSON string ... 
-                JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
-                var JSONFinal = javaScriptSerializer.Deserialize<JSONData>(OurPersistedJSON);
-
-
-                
-                if (JSONFinal.JSONVersion == 1)
+                try
                 {
-                    dataListe = JSONFinal.data;
+                    FileStream fs = new FileStream(pfadJSON, FileMode.Open);
 
+                    BinaryFormatter formatter = new BinaryFormatter();
 
-                    // Create new element on top of existing ?? 
+                    var OurPersistedJSON = (string)formatter.Deserialize(fs);
 
-                    if (data != null)
+                    // Now convert the JSONToWrite to JSON string ... 
+                    JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
+                    var JSONFinal = javaScriptSerializer.Deserialize<JSONData>(OurPersistedJSON);
+
+                    if (JSONFinal.JSONVersion == 1)
                     {
-                        var UpdatedFullJSONDB = PrepareNewJSON(data);
+                        dataListe = JSONFinal.data;
 
-                        // ok, now save it again .... 
+
+                        // Create new element on top of existing ?? 
+
+                        if (data != null)
+                        {
+                            var UpdatedFullJSONDB = new JsonResult();
+                            
+                            UpdatedFullJSONDB = PrepareNewJSON(data);
+
+                            // ok, now save it again .... 
+
+                            fs.Close();
+
+                            FileStream fs2 = new FileStream(pfadJSON, FileMode.Create);
+                            BinaryFormatter formatter2 = new BinaryFormatter();
+                            formatter2.Serialize(fs2, UpdatedFullJSONDB.Data);
+
+                            fs2.Close();
+
+
+                        }
 
                         fs.Close();
-                        
-                        FileStream fs2 = new FileStream(pfadJSON, FileMode.Create);
-                        BinaryFormatter formatter2 = new BinaryFormatter();
-                        formatter2.Serialize(fs2, UpdatedFullJSONDB.Data);
 
-                        fs2.Close();
+                    }
+                    else
+                    {
 
+                        fs.Close();
+                        // Version not implemented yet
+                        return false;
 
                     }
 
+
+                    // Now check the Version ...
+
+                    // JSONFileContent.
+
                     fs.Close();
 
-                }
-                else
+                    return true;
+                } 
+                catch (Exception e)
                 {
-
-                    fs.Close();
-                    // Version not implemented yet
-                    return false; 
+                    ViewData["Problem"] = e.Message.ToString();
 
                 }
+
+                return false;
                 
 
-                // Now check the Version ...
-
-                // JSONFileContent.
-
-                fs.Close();
-
-                return true;
             }
             else // JSON File not existing
             {
@@ -181,6 +197,130 @@ namespace Snipplets.Controllers
         }
 
 
+
+        public bool UpdateJSONPersistence(Data data)
+        {
+
+
+            // JSON File exists? 
+            if (System.IO.File.Exists(pfadJSON))
+            {
+                try
+                {
+                    FileStream fs = new FileStream(pfadJSON, FileMode.Open);
+
+                    BinaryFormatter formatter = new BinaryFormatter();
+
+                    var OurPersistedJSON = (string)formatter.Deserialize(fs);
+
+                    // Now convert the JSONToWrite to JSON string ... 
+                    JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
+                    var JSONFinal = javaScriptSerializer.Deserialize<JSONData>(OurPersistedJSON);
+
+                    if (JSONFinal.JSONVersion == 1)
+                    {
+                        // dataListe = JSONFinal.data;
+
+
+                        // Update existing 
+
+                        if (data != null)
+                        {
+                            var UpdatedFullJSONDB = new JsonResult();
+
+                            UpdatedFullJSONDB = PrepareUpdateJSON();
+
+                            // ok, now save it again .... 
+
+                            fs.Close();
+
+                            FileStream fs2 = new FileStream(pfadJSON, FileMode.Create);
+                            BinaryFormatter formatter2 = new BinaryFormatter();
+                            formatter2.Serialize(fs2, UpdatedFullJSONDB.Data);
+
+                            fs2.Close();
+                        }
+
+                        fs.Close();
+                    }
+                    else
+                    {
+                        fs.Close();
+                        // Version not implemented yet
+                        return false;
+                    }
+
+
+
+                    fs.Close();
+
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    ViewData["Problem"] = e.Message.ToString();
+
+                }
+
+                return false;
+
+
+            }
+            else // JSON File not existing
+            {
+                if (data == null)
+                    return false;
+
+                var jsonString = PrepareNewJSON(data);
+
+                FileStream fs = new FileStream(pfadJSON, FileMode.Create);
+                // Take a snapshot of all objects to store
+                try
+                {
+                    BinaryFormatter formatter = new BinaryFormatter();
+                    formatter.Serialize(fs, jsonString.Data);
+
+                    fs.Close();
+
+                }
+                catch (Exception e)
+                {
+                    fs.Close();
+                    // Somethings wrong!! 
+                    return false;
+                }
+
+
+
+                return true;
+            }
+
+
+        }
+
+        // GET: JSONData/Create
+        public JsonResult PrepareUpdateJSON()
+        {
+
+            // JSON File does not exist 
+            var JSONToWrite = new JSONData()
+            {
+                Id = 1,
+                JSONVersion = Version
+            };
+
+
+            JSONToWrite.data = dataListe;
+
+            // Now convert the JSONToWrite to JSON string ... 
+            JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
+            var JSONString = javaScriptSerializer.Serialize(JSONToWrite);
+
+            return Json(JSONString, JsonRequestBehavior.AllowGet);
+        }
+
+
+
         // GET: JSONData/Edit/5
         public ActionResult Edit(int id)
         {
@@ -206,7 +346,9 @@ namespace Snipplets.Controllers
         // GET: JSONData/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var ItemToDelete = dataListe.Where(z => z.Id == id).FirstOrDefault();
+            
+            return View(ItemToDelete);
         }
 
         // POST: JSONData/Delete/5
@@ -216,6 +358,9 @@ namespace Snipplets.Controllers
             try
             {
                 // TODO: Add delete logic here
+                var ItemToDelete = dataListe.Where(z => z.Id == id).FirstOrDefault();
+                ItemToDelete.Active = false;
+                UpdateJSONPersistence(ItemToDelete);
 
                 return RedirectToAction("Index");
             }

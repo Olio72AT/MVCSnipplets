@@ -187,6 +187,7 @@
     <Content Include="Views\Persistenz\Index.cshtml" />
     <Content Include="Views\JSONData\Index.cshtml" />
     <Content Include="Views\JSONData\Create.cshtml" />
+    <Content Include="Views\JSONData\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
