@@ -151,10 +151,12 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Graphics\ueber_uns.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
+    <Content Include="JSONExample\countries.json" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -204,10 +206,10 @@
     <Content Include="Views\JSONBitcoin\Index.cshtml" />
     <Content Include="Views\JSONBitcoin\BuySell.cshtml" />
     <Content Include="Views\Javascript\Index.cshtml" />
+    <Content Include="Views\Javascript\UeberUns.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Graphics\" />
     <Folder Include="UploadedFiles\" />
   </ItemGroup>
   <ItemGroup>

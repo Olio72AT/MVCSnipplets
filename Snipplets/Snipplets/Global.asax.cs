@@ -20,10 +20,10 @@ namespace Snipplets
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            
+
             // Add one Element 
             Snipplets.Controllers.EmployeeController.EmployeeListe.Add(
-            new Employee ()
+            new Employee()
             {
                 Id = 1,
                 Active = true,
@@ -46,7 +46,7 @@ namespace Snipplets
                 FirstName = "Nathanja",
                 LastName = "Die Kluge"
 
-            }) ;
+            });
 
 
         }
@@ -145,6 +145,22 @@ namespace Snipplets
                 }
 
             }
+
+
+        }
+        public static void WriteCookiewithMVC()
+        {
+
+
+            // Now write the current time to the cookie
+
+            HttpCookie cookienew = new HttpCookie("todoAPP");
+
+            cookienew.Value = "Today is a good day ... now change me to an JSON string ánd try it again ;)";
+            cookienew.Expires = DateTime.Now.AddHours(1);
+
+            HttpContext.Current.Response.SetCookie(cookienew);
+
 
         }
     }

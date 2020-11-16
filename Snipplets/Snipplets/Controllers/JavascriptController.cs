@@ -17,6 +17,12 @@ namespace Snipplets.Controllers
             return View(OneJSObject);
         }
 
+        public ActionResult UeberUns()
+        {
+            Snipplets.MvcApplication.WriteCookiewithMVC();
+            return View(OneJSObject);
+        }
+
         // GET: Javascript/Details/5
         public ActionResult Details(int id)
         {
